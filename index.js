@@ -1,6 +1,7 @@
 import express, { json } from "express";
-import { cors } from "cors";
-import Joi from "joi";
+import cors from "cors";
+import { signUpUser, signInUser } from "./controllers/auth.controller.js";
+import chalk from "chalk";
 
 const app = express();
 
@@ -9,8 +10,8 @@ app.use(json());
 
 //Routes
 
-app.post('/Sign-in', signInUser) //Sign in route 
+app.post('/sign-in', signInUser) //Sign in route 
 
-app.post('/Sign-up', signUpUser) //Sign up route
+app.post('/sign-up', signUpUser) //Sign up route
 
-app.listen(5000, () => console.log("Server is running on port 5000")); //Server is running on port 5000
+app.listen(5000, () => (console.log(chalk.bgYellow.red("Server is running on port 5000")))); //Server is running on port 5000

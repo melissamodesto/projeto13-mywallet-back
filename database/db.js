@@ -12,6 +12,6 @@ try {
   console.log(error.message);
 }
 
-const db = client.db("test");
+const db = client.db("myWallet");
 
 export default db;
