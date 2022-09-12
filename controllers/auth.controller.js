@@ -1,37 +1,11 @@
 import bcrypt from "bcrypt";
-import Joi from "joi";
 import { passwordStrength } from "check-password-strength";
 import { v4 as uuid } from "uuid";
 
 import db from "../database/db.js";
 
-const newUserSchema = Joi.object({
-  name: Joi.string()
-    .pattern(/^[a-zA-ZãÃÇ-Üá-ú ]*$/i)
-    .min(3)
-    .max(30)
-    .required(),
-  email: Joi.string().email().required(),
-  password: Joi.string().min(8).max(30).required(),
-});
-
-const loginSchema = Joi.object({
-  email: Joi.string().email().required(),
-  password: Joi.string()
-    .pattern(/^\S{6,20}$/)
-    .min(8)
-    .max(30)
-    .required(),
-});
-
 export async function signUpUser(req, res) {
   const { name, email, password } = req.body;
-
-  try {
-    newUserSchema.validate(req.body, { abortEarly: false });
-  } catch (error) {
-    res.status(400).send(error.details.map((err) => err.message));
-  }
 
   try {
     const user = await db.collection("users").findOne({ email });
@@ -67,12 +41,6 @@ export async function signInUser(req, res) {
   const { email, password } = req.body;
 
   try {
-    loginSchema.validate(req.body, { abortEarly: false });
-  } catch (error) {
-    return res.status(400).send(error.details.map((err) => err.message));
-  }
-
-  try {
     const user = await db.collection("users").findOne({ email });
     const validPassword = await bcrypt.compare(password, user.password);
 
@@ -88,12 +56,13 @@ export async function signInUser(req, res) {
 
     try {
       await db.collection("sessions").insertOne({ token, userId: user._id });
+      return res.status(200).send({ token });
     } catch (error) {
       console.log(error.message);
       return res.status(500).send("Couldn't add session to database");
     }
   } catch (error) {
-    return res.sendStatus(401);
+    return res.status(401).send("Invalid email or password");
   }
 
   res.status(200).send("Logged in");
