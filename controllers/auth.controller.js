@@ -24,17 +24,18 @@ export async function signUpUser(req, res) {
   const hashedPassword = await bcrypt.hash(password, 10);
 
   try {
-    const newUser = {
+
+    await db.collection("users").insertOne({
       name,
       email,
       password: hashedPassword,
-      id: uuid(),
-    };
-
-    const result = await db.collection("users").insertOne(newUser);
+    });
 
     res.status(201).send(result);
-  } catch (error) {}
+  } catch (error) {
+    res.send(req.body);
+    console.log(error);
+  }
 }
 
 export async function signInUser(req, res) {

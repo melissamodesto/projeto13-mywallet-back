@@ -19,7 +19,8 @@
   },
   "homepage": "https://github.com/melissamodesto/projeto13-mywallet-back#readme",
   "devDependencies": {
-    "chalk": "^5.0.1"
+    "chalk": "^5.0.1",
+    "nodemon": "^2.0.19"
   },
   "dependencies": {
     "bcrypt": "^5.0.1",

@@ -3,6 +3,9 @@ import cors from "cors";
 import chalk from "chalk";
 import authRouter from "./routes/authRouter.js";
 import statementsRouter from "./routes/statementsRouter.js";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const app = express();
 
@@ -11,9 +14,9 @@ app.use(json());
 
 //Routes
 
-app.post(authRouter); //Sign in route
+app.use(authRouter); //Auth router
 
-app.post(statementsRouter); //Sign up route
+app.use(statementsRouter);  //Statements router
 
 app.get("/", (req, res) => {
   res.send("Online");

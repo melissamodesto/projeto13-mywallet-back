@@ -28,7 +28,7 @@ export async function postStatement(req, res) {
 
   const valueNumber = parseFloat(value).toFixed(2);
 
-  if (valueNumber <= 0) {
+  if (valueNumber <= 0.0) {
     return res.status(400).send("Value must be greater than 0");
   }
 
@@ -104,7 +104,7 @@ export async function putStatement(req, res) {
 
   const valueNumber = parseFloat(value).toFixed(2);
 
-  if (valueNumber === "" || valueNumber <= 0) {
+  if (valueNumber === "" || valueNumber <= 0.0) {
     return res.status(400).send("Value must be greater than 0");
   }
 
