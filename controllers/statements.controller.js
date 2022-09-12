@@ -1,5 +1,6 @@
 import { ObjectId } from "mongodb";
 import db from "../database/db.js";
+import dayjs from "dayjs";
 
 export async function getStatements(req, res) {
   const { user } = req.locals;
@@ -21,6 +22,8 @@ export async function postStatement(req, res) {
   const { user } = req.locals;
   const { description, value, type } = req.body;
 
+  const date = dayjs().format("DD/MM");
+
   const trimmedDescription = description?.trim();
 
   const valueNumber = parseFloat(value).toFixed(2);
@@ -37,6 +40,7 @@ export async function postStatement(req, res) {
     value: valueNumber,
     type,
     userId: user._id,
+    date,
   };
 
   try {

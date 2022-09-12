@@ -1,7 +1,7 @@
 import Joi from "joi"
 
 const newStatementEntrySchema = Joi.object({
-    value: Joi.number().required().min(0.01).max(1000000),
+    value: Joi.number().required().min(0.01).max(1000000),  
     description: Joi.any(),
     type: Joi.valid("withdraw", "deposit").required(),
     userId: Joi.any(),
